@@ -81,7 +81,7 @@ if __name__ == "__main__":
     game.set_episode_start_time(10)
 
     # Makes the window appear (turned on by default)
-    game.set_window_visible(True)
+    game.set_window_visible(False)
 
     # Turns on the sound. (turned off by default)
     game.set_sound_enabled(True)

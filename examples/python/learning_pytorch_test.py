@@ -18,7 +18,6 @@ import torch.nn.functional as F
 from torchvision import datasets, transforms
 from torch.autograd import Variable
 
-
 # NN learning settings
 batch_size = 64
 

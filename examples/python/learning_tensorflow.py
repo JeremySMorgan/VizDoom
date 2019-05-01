@@ -31,7 +31,6 @@ frame_repeat = 12
 resolution = (30, 45)
 episodes_to_watch = 10
 
-
 # TODO move to argparser
 save_model = True
 load_model = False
@@ -81,7 +80,6 @@ class ReplayMemory:
         i = sample(range(0, self.size), sample_size)
         return self.s1[i], self.a[i], self.s2[i], self.isterminal[i], self.r[i]
 
-
 def create_network(session, available_actions_count):
     # Create the input variables
     s1_ = tf.placeholder(tf.float32, [None] + list(resolution) + [1], name="State")
@@ -129,7 +127,6 @@ def create_network(session, available_actions_count):
 
     return function_learn, function_get_q_values, function_simple_get_best_action
 
-
 def learn_from_memory():
     """ Learns from a single transition (making use of replay memory).
     s2 is ignored if s2_isterminal """
@@ -137,11 +134,20 @@ def learn_from_memory():
     # Get a random minibatch from the replay memory and learns from it.
     if memory.size > batch_size:
         s1, a, s2, isterminal, r = memory.get_sample(batch_size)
-
+        # print(s1.shape)
+        # print(a.shape)
+        # print(s2.shape)
+        # print(isterminal.shape)
+        # print(r.shape)
+        # print("------------ \n  ")
         q2 = np.max(get_q_values(s2), axis=1)
+        # print(q2.shape)
+
         target_q = get_q_values(s1)
         # target differs from q only for the selected action. The following means:
         # target_Q(s,a) = r + gamma * max Q(s2,_) if not isterminal else r
+        # print("np.arange(target_q.shape[0]):",np.arange(target_q.shape[0]))
+        # print("a:",a)
         target_q[np.arange(target_q.shape[0]), a] = r + discount_factor * (1 - isterminal) * q2
         learn(s1, target_q)
 
